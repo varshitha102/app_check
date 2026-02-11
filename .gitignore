@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Flutter / Dart
+.build/
+.dart_tool/
+.packages
+.pub-cache/
+pubspec.lock
+
+# OS junk
+.DS_Store
+Thumbs.db
