@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from sqlalchemy.orm import Session
 
 from database import Base, engine, get_db
@@ -22,14 +22,16 @@ app.add_middleware(
 
 
 class RegisterIn(BaseModel):
-    username: str
+    username: str = Field(min_length=1, max_length=50)
     email: EmailStr
-    password: str
+    # bcrypt passwords must be <= 72 bytes; enforce max_length 72 to avoid server crash
+    password: str = Field(min_length=6, max_length=72)
 
 
 class LoginIn(BaseModel):
     email: EmailStr
-    password: str
+    # enforce same max limit so login doesn't accept longer than what register allows
+    password: str = Field(min_length=1, max_length=72)
 
 
 @app.get("/")
